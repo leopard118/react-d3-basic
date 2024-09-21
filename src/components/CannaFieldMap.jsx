@@ -5,17 +5,24 @@ const CannaFieldMap = ({ blocksData, onBlockSelect }) => {
   const svgRef = useRef();
 
   useEffect(() => {
-    // const width = 600;
-    // const height = 600;
+    const width = 1000;
+    const height = 900;
     const svg = d3.select(svgRef.current);
 
     // Clear previous content
     svg.selectAll("*").remove();
 
     // Create zoom behavior
-    const zoom = d3.zoom().on("zoom", (event) => {
-      svg.attr("transform", event.transform);
-    });
+    const zoom = d3
+      .zoom()
+      .scaleExtent([1, 15])
+      .translateExtent([
+        [0, 0],
+        [width, height],
+      ])
+      .on("zoom", (event) => {
+        svg.attr("transform", event.transform);
+      });
 
     // Apply zoom behavior to the SVG
     d3.select(svgRef.current.parentNode).call(zoom);
@@ -25,7 +32,7 @@ const CannaFieldMap = ({ blocksData, onBlockSelect }) => {
     g.append("style").text(`
         .rects {
           stroke: transparent;
-          stroke-width: 2px;
+          stroke-width: 0.5px;
         }
         .rects rect:hover {
           stroke: blue;
@@ -38,8 +45,8 @@ const CannaFieldMap = ({ blocksData, onBlockSelect }) => {
       .append("rect")
       .attr("x", (d) => d.x)
       .attr("y", (d) => d.y)
-      .attr("width", 29)
-      .attr("height", 29)
+      .attr("width", 9.5)
+      .attr("height", 9.5)
       .attr("fill", (d) => {
         if (d.status === "solid") return "red";
         else if (d.isSelected) return "blue";
@@ -57,7 +64,7 @@ const CannaFieldMap = ({ blocksData, onBlockSelect }) => {
       });
   }, [blocksData, onBlockSelect]);
   return (
-    <svg width="600" height="600">
+    <svg width="1000" height="900">
       <g ref={svgRef}></g>
     </svg>
   );
