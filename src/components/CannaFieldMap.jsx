@@ -5,7 +5,7 @@ const CannaFieldMap = ({ blocksData, onBlockSelect }) => {
   const svgRef = useRef();
 
   useEffect(() => {
-    const width = 1400;
+    const width = 1000;
     const height = 900;
     const svg = d3.select(svgRef.current);
 
